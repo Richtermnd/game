@@ -1,0 +1,7 @@
+version: "3"
+
+tasks:
+  run-win:
+    - GOOS=windows go run cmd/main.go
+  run-linux:
+    - GOOS=linux go run cmd/main.go
