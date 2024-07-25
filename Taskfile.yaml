@@ -2,6 +2,8 @@ version: "3"
 
 tasks:
   run-win:
-    - GOOS=windows go run cmd/main.go
+    - GOOS=windows go run cmd/game/main.go
   run-linux:
-    - GOOS=linux go run cmd/main.go
+    - GOOS=linux go run cmd/game/main.go
+  build-mapconvertor:
+    - go build cmd/mapconvertor/main.go

@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	log.Default().SetPrefix("")
 	g := game.New()
 	if err := ebiten.RunGame(g); err != nil {
 		log.Fatal(err)

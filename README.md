@@ -1,2 +1,1 @@
-# game
-Game in go.
+# Game
