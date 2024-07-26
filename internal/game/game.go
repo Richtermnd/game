@@ -40,14 +40,15 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return config.ScreenWidth, config.ScreenHeight
 }
 
-func (g *Game) AddDrawer(drawer LayoutDrawer) {
-	g.drawers = append(g.drawers, drawer)
+func (g *Game) AddDrawer(drawer ...LayoutDrawer) {
+	g.drawers = append(g.drawers, drawer...)
 	slices.SortFunc(g.drawers, func(a, b LayoutDrawer) int {
 		return cmp.Compare(a.Layout(), b.Layout())
 	})
 }
 
 func setup() {
+	ebiten.SetTPS(30)
 	ebiten.SetWindowSize(config.ScreenWidth, config.ScreenHeight)
 	ebiten.SetWindowTitle("Game")
 }
