@@ -1,7 +1,7 @@
 package player
 
 import (
-	"github.com/Richtermnd/game/internal/player/animations"
+	"github.com/Richtermnd/game/internal/animations"
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
@@ -11,8 +11,12 @@ type Player struct {
 }
 
 func NewPlayer(name string, x, y int) *Player {
-	anims := animations.New(name)
-	anims.SetState(animations.IDLE)
+	anims := animations.New(
+		getSpriteHolder(name),
+		IDLE,
+		0.1, 24, 24,
+	)
+	anims.SetState(IDLE)
 	return &Player{
 		X:     x,
 		Y:     y,
