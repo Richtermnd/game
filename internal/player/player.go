@@ -37,6 +37,8 @@ func (p *Player) handleInput() {
 }
 
 func (p *Player) handleMove() {
+	prevDir := p.Dir
+	// Up and down
 	if ebiten.IsKeyPressed(ebiten.KeyW) {
 		p.Dir.Y = -1
 	} else if ebiten.IsKeyPressed(ebiten.KeyS) {
@@ -44,12 +46,28 @@ func (p *Player) handleMove() {
 	} else {
 		p.Dir.Y = 0
 	}
+
+	// Left and right
 	if ebiten.IsKeyPressed(ebiten.KeyA) {
 		p.Dir.X = -1
 	} else if ebiten.IsKeyPressed(ebiten.KeyD) {
 		p.Dir.X = 1
 	} else {
 		p.Dir.X = 0
+	}
+
+	l1, l2 := p.Dir.Len(), prevDir.Len()
+	if l1 != l2 {
+		if l1 == 0 {
+			p.anims.SetState(IDLE)
+		} else {
+			p.anims.SetState(MOVE)
+		}
+	}
+	if p.Dir.Len() != 0 && prevDir.Len() == 0 {
+		p.anims.SetState(MOVE)
+	} else if p.Dir.Len() == 0 && prevDir.Len() != 0 {
+		p.anims.SetState(IDLE)
 	}
 }
 

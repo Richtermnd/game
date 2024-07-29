@@ -54,7 +54,7 @@ func (s *spriteHolder) GetSprites(state animState) (*ebiten.Image, int) {
 	case IDLE:
 		return s.Idle, 3
 	case MOVE:
-		return s.Move, 8
+		return s.Move, 6
 	default:
 		log.Fatalf("Unimplemented state: %s", state)
 		return nil, 0
