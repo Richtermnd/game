@@ -6,6 +6,7 @@ import (
 
 	"github.com/Richtermnd/game/internal/config"
 	"github.com/Richtermnd/game/internal/field"
+	"github.com/Richtermnd/game/internal/utils"
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
@@ -14,8 +15,13 @@ type LayoutDrawer interface {
 	Draw(screen *ebiten.Image)
 }
 
+type Updater interface {
+	Update() error
+}
+
 type Game struct {
-	drawers []LayoutDrawer
+	drawers  []LayoutDrawer
+	updaters []Updater
 }
 
 func New() *Game {
@@ -27,6 +33,12 @@ func New() *Game {
 }
 
 func (g *Game) Update() error {
+	for _, updater := range g.updaters {
+		err := updater.Update()
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
@@ -34,6 +46,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	for _, drawer := range g.drawers {
 		drawer.Draw(screen)
 	}
+	utils.DrawDebug(screen)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
@@ -45,6 +58,9 @@ func (g *Game) AddDrawer(drawer ...LayoutDrawer) {
 	slices.SortFunc(g.drawers, func(a, b LayoutDrawer) int {
 		return cmp.Compare(a.Layout(), b.Layout())
 	})
+}
+func (g *Game) AddUpdaters(updaters ...Updater) {
+	g.updaters = append(g.updaters, updaters...)
 }
 
 func setup() {
