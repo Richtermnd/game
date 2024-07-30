@@ -5,6 +5,7 @@ import (
 	"slices"
 
 	"github.com/Richtermnd/game/internal/config"
+	"github.com/Richtermnd/game/internal/events"
 	"github.com/Richtermnd/game/internal/field"
 	"github.com/Richtermnd/game/internal/utils"
 	"github.com/hajimehoshi/ebiten/v2"
@@ -33,6 +34,8 @@ func New() *Game {
 }
 
 func (g *Game) Update() error {
+	events.AcceptKeyboard()
+	events.Notify()
 	for _, updater := range g.updaters {
 		err := updater.Update()
 		if err != nil {
